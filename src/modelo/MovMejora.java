@@ -1,4 +1,4 @@
-package pokemon;
+package modelo;
 
 public class MovMejora extends Movimientos {
 

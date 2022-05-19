@@ -1,4 +1,4 @@
-package pokemon;
+package modelo;
 
 import java.util.LinkedList;
 import java.util.List;

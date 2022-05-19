@@ -1,4 +1,4 @@
-package pokemon;
+package modelo;
 
 	public enum Tipo {
 		 AGUA,FUEGO,PLANTA,VOLADOR,ELECTRICO,NORMAL,BICHO,TIERRA,VENENO;

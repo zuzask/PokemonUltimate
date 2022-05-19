@@ -1,4 +1,4 @@
-package pokemon;
+package modelo;
 abstract class Movimientos {
 
     protected String nombre;

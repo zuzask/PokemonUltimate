@@ -1,4 +1,4 @@
-package pokemon;
+package modelo;
 
 import java.sql.SQLException;
 import java.util.LinkedList;
