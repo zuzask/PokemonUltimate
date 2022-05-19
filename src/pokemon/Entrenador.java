@@ -1,5 +1,6 @@
 package pokemon;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Entrenador {
@@ -108,7 +109,7 @@ public class Entrenador {
 			} else {
 
 				System.out.println("Elige el pokemon que deseas unir al equipo.");
-				System.out.println(caja.toString());// Te debe dar el mote 
+				System.out.println(caja.toString());// Te debe dar el mote
 				candidato = sc.nextInt();
 
 				pokemon = caja.getListPokemon().get(candidato);
@@ -131,7 +132,7 @@ public class Entrenador {
 	}
 
 	public void captura() {
-		
+
 		Pokemon pokemonCaptura = new Pokemon();
 		int captura;
 		int cont = 0;
@@ -140,33 +141,40 @@ public class Entrenador {
 
 		System.out.println("A ver si cae la breva.");
 
-		captura = ((int)Math.floor(Math.random()*(1-3+1)+3));
+		captura = ((int) Math.floor(Math.random() * (1 - 3 + 1) + 3));
 
-		if (captura > 1){
+		if (captura > 1) {
+
+			try {
+				DbConexion.insertarPokemon(pokemonCaptura);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 
 			for (int i = 0; i < equipo.length; i++) {
 				if (equipo[i] != null) {
 					cont++;
 				}
 
-			if(cont < 4){
-				for (int j = 0; j < equipo.length; j++) {
-					cont = 0;
-					if (equipo[j] == null) {
-						equipo[j] = pokemonCaptura;
-						cont = 1;
+				if (cont < 4) {
+					for (int j = 0; j < equipo.length; j++) {
+						cont = 0;
+						if (equipo[j] == null) {
+							equipo[j] = pokemonCaptura;
+							cont = 1;
+						}
+						if (cont == 1) {
+							j = 10;
+						}
 					}
-					if (cont == 1) {
-						j = 10;
-			}else{
-				
-				caja.getListPokemon().add(pokemonCaptura);
+				} else {
 
+					caja.getListPokemon().add(pokemonCaptura);
+				}
+			}
 		}else{
 			System.out.println("Unlucky.");
 		}
-	}	
-	
-}
-	
+	}
+
 }
