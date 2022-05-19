@@ -26,6 +26,7 @@ public class DbConexion {
 			e.printStackTrace();
 		} 
         
+        System.out.println("conexion establecida");
     }
 
     public static void cerrarConexion(){
@@ -35,21 +36,22 @@ public class DbConexion {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        System.out.println("Conexion cerrada");
     }
 
     public static List<Pokemon> cargarPokemon() throws SQLException {
 		//String pok="Charizard";		
         LinkedList<Pokemon> listaPokemon = new LinkedList<>();
-        String consulta = "SELECT * FROM POKEDEX";
+        String consulta = "SELECT * FROM pokemon";
         Statement statement = conexion.createStatement();
         ResultSet rs = statement.executeQuery(consulta);
 
         Pokemon e = null;
         while (rs.next()) {
             e = new Pokemon();
-            e.setNumPokedex(rs.getInt("num_pokedex"));
-            e.setNombre(rs.getString("nom_pokemon"));
-            e.setTipo(Tipo.valueOf(rs.getString("tipo")));
+            e.setNumPokedex(rs.getInt("id_pokedex"));
+            e.setNombre(rs.getString("nombre"));
+            e.setTipo(Tipo.valueOf(rs.getString("tipo1")));
             listaPokemon.add(e);
         }
         statement.close();

@@ -4,8 +4,16 @@ public class Main {
 
      public static void main(String[] args) {
 
-        Pokemon pedro = new Pokemon();
+
+        Pokemon pokemon = new Pokemon();
+
+        DbConexion.establecerConexion();
+
+        pokemon = Pokemon.generarPokemon();      
+
         
+        DbConexion.cerrarConexion();
+        System.out.println(pokemon.mostrarPokemon());
     }
     
 }

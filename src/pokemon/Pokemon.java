@@ -37,7 +37,7 @@ public class Pokemon {
 		this.numPokedex = 0;
 		this.numPokemon = 0;
 		this.idEntrenador = 0;
-		this.mote = nombre;
+		this.mote = "";
 		this.vitalidad = 0;
 		this.ataque = 0;
 		this.defensa = 0;
@@ -215,12 +215,13 @@ public class Pokemon {
 
 			this.nivel++;
 
-			this.vitalidad = this.vitalidad + ((int) Math.random() * 5 + 1);
-			this.ataque = this.ataque + ((int) Math.random() * 5 + 1);
-			this.defensa = this.defensa + ((int) Math.random() * 5 + 1);
-			this.ataqueEspecial = this.ataqueEspecial + ((int) Math.random() * 5 + 1);
-			this.defensaEspecial = this.defensaEspecial + ((int) Math.random() * 5 + 1);
-			this.velocidad = this.velocidad + ((int) Math.random() * 5 + 1);
+			this.vitalidad = this.vitalidad + ((int)Math.floor(Math.random()*(0-5)+6));
+			this.ataque = this.ataque + ((int)Math.floor(Math.random()*(0-5)+6));
+			this.defensa = this.defensa + ((int)Math.floor(Math.random()*(0-5)+6));
+			this.ataqueEspecial = this.ataqueEspecial + ((int)Math.floor(Math.random()*(0-5)+6));
+			this.defensaEspecial = this.defensaEspecial + ((int)Math.floor(Math.random()*(0-5)+6));
+			this.velocidad = this.velocidad + ((int)Math.floor(Math.random()*(0-5)+6));
+			this.estamina = this.estamina + ((int)Math.floor(Math.random()*(0-5)+6));
 
 	}
 
@@ -509,14 +510,14 @@ public class Pokemon {
 		
 		Pokemon pokemonGenerado = new Pokemon();
 		
-		List<Pokemon> pokedex = new LinkedList<>();
+		List<Pokemon> pokemon = new LinkedList<>();
 		try {
-		   pokedex = DbConexion.cargarPokemon();
+		   pokemon = DbConexion.cargarPokemon();
 	   } catch (SQLException e) {
 		   e.printStackTrace();
 	   }
 
-	   pokemonGenerado = pokedex.get((int) Math.random() * (pokedex.size()-1) + 0);
+	   pokemonGenerado = pokemon.get(((int)Math.floor(Math.random()*(1-pokemon.size()+1)+pokemon.size())));
 		
 		pokemonGenerado.subirNivel();
 		
@@ -526,7 +527,7 @@ public class Pokemon {
 	public String mostrarPokemon() {
 		return "Pokemon [ataque=" + ataque + ", ataqueEspecial=" + ataqueEspecial + ", defensa=" + defensa
 				+ ", defensaEspecial=" + defensaEspecial + ", estado=" + estado + ", estamina=" + estamina + ", exp="
-				+ exp + ", kitMov=" + Arrays.toString(kitMov) + ", mote=" + mote + ", nivel=" + nivel + ", tipo=" + tipo + ", velocidad=" + velocidad + ", vitalidad=" + vitalidad + "]";
+				+ exp + ", kitMov=" + Arrays.toString(kitMov) + ", nombre="+ nombre +", mote=" + mote + ", nivel=" + nivel + ", tipo=" + tipo + ", velocidad=" + velocidad + ", vitalidad=" + vitalidad + "]";
 	}
 
 	@Override
