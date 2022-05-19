@@ -77,7 +77,7 @@ public class Entrenador {
 				miembro--;
 
 			} while (equipo[miembro] == null);
-			
+
 			caja.getListPokemon().add(equipo[miembro]);
 			equipo[miembro] = null;
 		}
@@ -130,12 +130,43 @@ public class Entrenador {
 		sc.close();
 	}
 
-	
 	public void captura() {
 		
-	}
+		Pokemon pokemonCaptura = new Pokemon();
+		int captura;
+		int cont = 0;
+
+		pokemonCaptura = Pokemon.generarPokemon();
+
+		System.out.println("A ver si cae la breva.");
+
+		captura = ((int)Math.floor(Math.random()*(1-3+1)+3));
+
+		if (captura > 1){
+
+			for (int i = 0; i < equipo.length; i++) {
+				if (equipo[i] != null) {
+					cont++;
+				}
+
+			if(cont < 4){
+				for (int j = 0; j < equipo.length; j++) {
+					cont = 0;
+					if (equipo[j] == null) {
+						equipo[j] = pokemonCaptura;
+						cont = 1;
+					}
+					if (cont == 1) {
+						j = 10;
+			}else{
+				
+				caja.getListPokemon().add(pokemonCaptura);
+
+		}else{
+			System.out.println("Unlucky.");
+		}
+	}	
 	
-	
-	
+}
 	
 }
