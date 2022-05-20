@@ -754,7 +754,7 @@ public class Pokemon {
 	public String mostrarPokemon() {
 		return "Pokemon [ataque=" + ataque + ", ataqueEspecial=" + ataqueEspecial + ", defensa=" + defensa
 				+ ", defensaEspecial=" + defensaEspecial + ", estado=" + estado + ", estamina=" + estamina + ", exp="
-				+ exp + ", kitMov=" + Arrays.toString(kitMov) + ", nombre="+ nombre +", mote=" + mote + ", nivel=" + nivel + ", tipo=" + tipo + ", velocidad=" + velocidad + ", vitalidad=" + vitalidad + "]";
+				+ exp + ", nombre="+ nombre + ", nivel=" + nivel + ", tipo=" + tipo + ", velocidad=" + velocidad + ", vitalidad=" + vitalidad + "]";
 	}
 
 	@Override

@@ -11,10 +11,20 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import modelo.Entrenador;
+import modelo.Pokemon;
 
 public class VentanaCapturar implements Initializable {
+
+    private Entrenador entrenador;
+    private Pokemon pokemon;
+
+    @FXML
+    private ImageView CapturarPokemon;
 
     @FXML
     private Button btnCapturar;
@@ -30,13 +40,16 @@ public class VentanaCapturar implements Initializable {
     @FXML
     private void capturar(ActionEvent event) throws IOException{
 
-        
+        entrenador.captura();
 
       
     }
 
     @FXML
     private void generarPokemon(ActionEvent event) throws IOException{
+
+        Image image = new Image("../imagenes/fondo.png");
+        CapturarPokemon.setImage(image);
 
     }
 
@@ -71,7 +84,13 @@ public class VentanaCapturar implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // TODO Auto-generated method stub
+
+        entrenador = new Entrenador();
+
+        pokemon = new Pokemon();
+
+
+        
         
     }
 
