@@ -225,17 +225,19 @@ public class Pokemon {
 
 	}
 
-	public void ataqueNuevo(Movimientos[] kitmov, Movimientos ataqueNuevo) {
-
+	public void ataqueNuevo() {
+	
 		Scanner sc = new Scanner(System.in);
 
+		Movimientos nuevoMovimiento = Movimientos.generarMovimientos();
 		int opcion;
 		boolean check = false;
+		String respuesta;
 
 		if (this.nivel % 3 == 0) {
 
-			String respuesta;
 			System.out.println("�Deseas aprender este ataque? (s/n)");
+			System.out.println(nuevoMovimiento.getNombre());
 
 			respuesta = sc.nextLine();
 
@@ -258,9 +260,9 @@ public class Pokemon {
 					}
 				} while (check == false);
 
-				kitMov[opcion - 1] = ataqueNuevo;
+				kitMov[opcion - 1] = nuevoMovimiento;
 
-				System.out.println("Sustituci�n ejecutada exitosamente");
+				System.out.println("Sustitución ejecutada exitosamente");
 
 			}
 		}
@@ -520,7 +522,10 @@ public class Pokemon {
 	   pokemonGenerado = pokemon.get(((int)Math.floor(Math.random()*(1-pokemon.size()+1)+pokemon.size())));
 		
 		pokemonGenerado.subirNivel();
-		
+
+		for(int i = 0; i < pokemonGenerado.kitMov.length; i++){
+		pokemonGenerado.kitMov[i] = Movimientos.generarMovimientos();
+		}
 		return pokemonGenerado;
 	}
 

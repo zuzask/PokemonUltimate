@@ -123,10 +123,25 @@ public class Combate {
 	
 	public String combatir() {
 		
-		
-		
-		
-		return "El ganador es: "+ganador;
+		boolean finalizar = false; 
+
+
+		do{
+
+			if(numKO1 == 4 || numKO2 == 4){
+
+				finalizar = true;
+
+			}
+
+		}while(finalizar == false);
+
+		if(numKO1 == 4){
+			this.ganador = rival.getNombre();
+		}else{
+			this.ganador = entrenador.getNombre();
+		}
+		return "El ganador es: "+ this.ganador;
 	}
 
 	

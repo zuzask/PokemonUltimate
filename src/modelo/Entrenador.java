@@ -206,4 +206,14 @@ public class Entrenador {
 		}
 	}
 
+	public void mostrarEquipo(){
+
+		for(int i = 0; i < equipo.length; i++){
+
+		System.out.println(equipo[i].mostrarPokemon());
+
+		}
+
+	}
+
 }
