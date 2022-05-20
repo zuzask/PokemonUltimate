@@ -161,11 +161,13 @@ public class Combate {
 
 			if(accionEntrenador == pokemonEntrenador.getNombre()+" MUERTO"){
 				numKO1++;
+				i++;
 				ganarExp(pokemonEntrenador, pokemonRival);
 			}
 
 			if(accionRival == pokemonRival.getNombre()+" MUERTO"){
 				numKO2++;
+				j++;
 			}
 
 			numTurno++;
