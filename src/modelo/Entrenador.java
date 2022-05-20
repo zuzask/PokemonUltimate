@@ -5,6 +5,9 @@ import java.util.Scanner;
 
 public class Entrenador {
 
+	public static final int CAJA = 0;
+	public static final int EQUIPO = 1;
+
 	private Pokemon equipo[];
 	private Caja caja;
 	private String nombre;
@@ -145,11 +148,6 @@ public class Entrenador {
 
 		if (captura > 1) {
 
-			try {
-				DbConexion.insertarPokemon(pokemonCaptura);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 
 			for (int i = 0; i < equipo.length; i++) {
 				if (equipo[i] != null) {
@@ -165,11 +163,20 @@ public class Entrenador {
 						}
 						if (cont == 1) {
 							j = 10;
-						}
+						}	
+					}	try {
+						DbConexion.insertarPokemon(pokemonCaptura,EQUIPO);
+					} catch (SQLException e) {
+						e.printStackTrace();
 					}
 				} else {
 
 					caja.getListPokemon().add(pokemonCaptura);
+					try {
+						DbConexion.insertarPokemon(pokemonCaptura,CAJA);
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}else{

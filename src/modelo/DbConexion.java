@@ -58,7 +58,7 @@ public class DbConexion {
         return listaPokemon;
     }
 
-    public static void insertarPokemon(Pokemon p) throws SQLException {
+    public static void insertarPokemon(Pokemon p,int equipo) throws SQLException {
 		String sentencia ="INSERT INTO pokemon_entrenador(id_pokemon, id_pokedex, id_entrenador, mote, vitalidad, ataque, defensa, ataque_esp, defensa_esp, estamina, nivel, velocidad, experiencia, equipo) VALUES("+ p.getNumPokemon()
                                                        +",'"+p.getNumPokedex()
                                                        +",'"+p.getIdEntrenador()
@@ -72,6 +72,7 @@ public class DbConexion {
                                                        +",'"+p.getNivel()
                                                        +",'"+p.getVelocidad()
                                                        +",'"+p.getExp()
+                                                       +",'"+equipo
                                                        +"')";
 		Statement stmt = null;
 		try {

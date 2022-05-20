@@ -15,8 +15,8 @@
             "name": "Launch Main",
             "request": "launch",
             "mainClass": "modelo.Main",
-            "projectName": "PokemonUltimate_b6954b4b",
-            "vmArgs": "--module-path=C:/Users/mizuz/Downloads/openjfx-18.0.1_windows-x64_bin-sdk/javafx-sdk-18.0.1/lib --add-modules=javafx.controls,javafx.fxml"
+            "projectName": "PokemonUltimate_6287e1d5",
+            "vmArgs": "--module-path\"C:\\Users\\Usuario\\Downloads\\openjfx-18.0.1_windows-x64_bin-sdk\\javafx-sdk-18.0.1\\lib\" --add-modules Javafx.controls,javafx.fxml"
         }
     ]
 }
