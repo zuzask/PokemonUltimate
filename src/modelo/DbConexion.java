@@ -33,14 +33,12 @@ public class DbConexion {
         try {
             conexion.close();
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         System.out.println("Conexion cerrada");
     }
 
-    public static List<Pokemon> cargarPokemon() throws SQLException {
-		//String pok="Charizard";		
+    public static List<Pokemon> cargarPokemon() throws SQLException {	
         LinkedList<Pokemon> listaPokemon = new LinkedList<>();
         String consulta = "SELECT * FROM pokemon";
         Statement statement = conexion.createStatement();
@@ -83,32 +81,65 @@ public class DbConexion {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			stmt.close(); // Puede lanzar SQLExceptions, por eso he puesto el
-			// throws en la cabecera del m�todo
+			stmt.close();
 		}
 													   
 	}
 
-    public static List<Movimientos> cargarMovimientos() throws SQLException {
-		//String pok="Charizard";		
+    public static List<Movimientos> cargarMovimientos() throws SQLException {		
         LinkedList<Movimientos> listaMovimientos = new LinkedList<>();
         String consulta = "SELECT * FROM movimientos";
         Statement statement = conexion.createStatement();
         ResultSet rs = statement.executeQuery(consulta);
 
-        MovAtaque a = null;
-        MovEstado e = null;
-        MovMejora m = null;
-        while (rs.next()) {
-            e = new MovEstado();
-            e.setNumPokedex(rs.getInt("id_pokedex"));
-            e.setNombre(rs.getString("nombre"));
-            e.setTipo(Tipo.valueOf(rs.getString("tipo1")));
-            listaPokemon.add(e);
+        Movimientos e = null;
+            while (rs.next()) {
+                String nombre = rs.getString("nombre_mov");
+                int idMovimientos = rs.getInt("id_movimientos");
+                Estado estado = Estado.valueOf(rs.getString("estado"));
+                Tipo tipo = Tipo.valueOf(rs.getString("tipo"));
+                int potenciaAtaque = rs.getInt("potencia");
+                int formaAtaque = rs.getInt("forma_ataque");
+                String mejora = rs.getString("mejora");
+                int numTurnos = rs.getInt("num_turno");
+                int valor = rs.getInt("cant_mejora");
+
+                
+
+                if(estado == null && mejora == null){
+
+                    e = new MovAtaque(nombre, idMovimientos, potenciaAtaque, tipo, formaAtaque);
+
+                }else if(estado == null && potenciaAtaque == 0){
+
+                    e = new MovMejora(nombre, idMovimientos, mejora, numTurnos, valor);
+                }else {
+
+                    e = new MovEstado(nombre, idMovimientos, estado, numTurnos);
+                }
+                listaMovimientos.add(e);
         }
         statement.close();
-        return listaPokemon;
+        return listaMovimientos;
     }
+
+    public static void insertarMovimiento(Movimientos m,Pokemon p) throws SQLException {
+		String sentencia ="INSERT INTO movimientos_pokemon(id_pokemon, id_movimientos) VALUES("+ p.getNumPokemon()
+                                                       +",'"+ m.getIdMovimientos()
+                                                       +"')";
+		Statement stmt = null;
+		try {
+			stmt = conexion.createStatement();
+			stmt.executeUpdate(sentencia);
+			
+			System.out.println("Nuevo pokemon insertado. "+p.getNombre());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			stmt.close();
+		}
+													   
+	}
 
 
 }
