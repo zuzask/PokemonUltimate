@@ -113,7 +113,7 @@ public class Entrenador {
 			} else {
 
 				System.out.println("Elige el pokemon que deseas unir al equipo.");
-				System.out.println(caja.toString());// Te debe dar el mote
+				System.out.println(caja.toString());
 				candidato = sc.nextInt();
 
 				pokemon = caja.getListPokemon().get(candidato);
@@ -158,9 +158,12 @@ public class Entrenador {
 
 	public void captura() {
 
+		Scanner sc = new Scanner(System.in);
+
 		Pokemon pokemonCaptura = new Pokemon();
 		int captura;
 		int cont = 0;
+		String respuesta;
 
 		pokemonCaptura = Pokemon.generarPokemon();
 
@@ -170,6 +173,13 @@ public class Entrenador {
 
 		if (captura > 1) {
 
+			System.out.println("Deseas ponerle un mote (s/n)");
+			respuesta = sc.nextLine();
+
+			if(respuesta == "s"){		
+				System.out.println("Dime el mote: ");
+				pokemonCaptura.setMote(sc.nextLine());
+			}
 
 			for (int i = 0; i < equipo.length; i++) {
 				if (equipo[i] != null) {

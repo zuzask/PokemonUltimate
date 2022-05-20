@@ -3,6 +3,9 @@ package modelo;
 import java.util.LinkedList;
 import java.util.List;
 
+import controladores.TestController;
+import controladores.TestController2;
+
 public class Combate {
 
 	private Entrenador entrenador;
@@ -111,11 +114,13 @@ public class Combate {
 			dineroPagar = (rival.getPokedollar()) / 3 ;
 			entrenador.setPokedollar(entrenador.getPokedollar() + dineroPagar);
 			rival.setPokedollar(rival.getPokedollar() - dineroPagar);
+			System.out.println(entrenador.getNombre() + " ha recibido "+ dineroPagar+ " de "+ rival.getNombre());
 			
 		}else {
 			dineroPagar = (entrenador.getPokedollar()) / 3 ;
 			rival.setPokedollar(rival.getPokedollar() + dineroPagar);
 			entrenador.setPokedollar(entrenador.getPokedollar() - dineroPagar);
+			System.out.println(rival.getNombre() + " ha recibido "+ dineroPagar+ " de "+ entrenador.getNombre());
 		}
 		
 		
@@ -123,10 +128,49 @@ public class Combate {
 	
 	public String combatir() {
 		
-		boolean finalizar = false; 
-
+		boolean finalizar = false;
+		Pokemon equipoEntrenador[] = entrenador.getEquipo();
+		Pokemon equipoRival[] = rival.getEquipo();
+		Pokemon pokemonEntrenador = new Pokemon();
+		Pokemon pokemonRival = new Pokemon();
+		int i = 0;
+		int j = 0;
+		int numTurno = 0;
+		String accionEntrenador = "";
+		String accionRival = "";
+		Turno turno = new Turno(numTurno, accionEntrenador, accionRival);
 
 		do{
+			 pokemonEntrenador = equipoEntrenador[i];
+			 pokemonRival = equipoRival[j];
+
+			if (pokemonEntrenador.getVelocidad() >= pokemonRival.getVelocidad()){
+
+				accionEntrenador = pokemonEntrenador.atacar(pokemonRival);
+			
+				accionRival = pokemonRival.atacaqueRival(pokemonEntrenador);
+
+
+			}else{
+
+				accionRival = pokemonRival.atacaqueRival(pokemonEntrenador);
+
+				accionEntrenador = pokemonEntrenador.atacar(pokemonRival);
+
+			}
+
+			if(accionEntrenador == pokemonEntrenador.getNombre()+" MUERTO"){
+				numKO1++;
+				ganarExp(pokemonEntrenador, pokemonRival);
+			}
+
+			if(accionRival == pokemonRival.getNombre()+" MUERTO"){
+				numKO2++;
+			}
+
+			numTurno++;
+
+			combate.add(turno);
 
 			if(numKO1 == 4 || numKO2 == 4){
 
@@ -138,9 +182,13 @@ public class Combate {
 
 		if(numKO1 == 4){
 			this.ganador = rival.getNombre();
+
 		}else{
 			this.ganador = entrenador.getNombre();
 		}
+
+		pagar();
+
 		return "El ganador es: "+ this.ganador;
 	}
 

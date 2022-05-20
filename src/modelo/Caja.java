@@ -24,21 +24,8 @@ public class Caja {
 		this.listPokemon = listPokemon;
 	}
 
-	//Cambiar el método para que se pueda mostrar el interior.
 	public String toString() {
 		return "Caja [listPokemon=" + listPokemon + "]";
-	}
-
-	public void cargarListaPokemon(){
-		DbConexion.establecerConexion();
-		try {
-			this.listPokemon = DbConexion.cargarPokemon();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		DbConexion.cerrarConexion();
-
 	}
 
 }

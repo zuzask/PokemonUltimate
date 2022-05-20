@@ -271,7 +271,7 @@ public class Pokemon {
 
 	}
 
-	public void atacar(Pokemon pkRival) {
+	public String atacar(Pokemon pkRival) {
 
 		Scanner sc = new Scanner(System.in);
 
@@ -279,130 +279,302 @@ public class Pokemon {
 		MovEstado estado = new MovEstado();
 		MovMejora mejora = new MovMejora();
 		int potenciaTotal = 0;
+		String accion = "";
 
 		int opcion;
 		boolean check = false;
 
-		do {
+		if(comprobarCondicion() == 0){
 
-			System.out.println("Elige el ataque (1-4): ");
+			do {
 
-			for (int i = 0; i < this.kitMov.length; i++) {
+				System.out.println("Elige el ataque (1-4): ");
 
-				if (this.kitMov[i] != null) {
-					System.out.println(this.kitMov[i].getNombre() + " " + (i + 1));
+				for (int i = 0; i < this.kitMov.length; i++) {
+
+					if (this.kitMov[i] != null) {
+						System.out.println(this.kitMov[i].getNombre() + " " + (i + 1));
+					} else {
+						System.out.println("Sin movimiento.");
+					}
+				}
+
+				opcion = sc.nextInt();
+
+				if (opcion >= 1 && opcion <= 4) {
+					check = true;
+
+				}
+			} while (check == false);
+
+			if (this.kitMov[opcion - 1] instanceof MovAtaque) {
+
+				ataque = (MovAtaque) kitMov[opcion - 1];
+
+				if (this.estamina - ataque.calculoConsumo() >= 0) {
+
+					switch (ataque.getFormaAtaque()) {
+
+					case MovAtaque.FISICO:
+
+						if (ataque.getTipo() == Tipo.NORMAL || ataque.getTipo() != this.tipo) {
+
+							potenciaTotal = (this.ataque * ataque.getPotenciaAtaque()) - pkRival.getDefensa();
+						}
+						if (this.tipo == ataque.getTipo() && ataque.getTipo() != Tipo.NORMAL) {
+
+							potenciaTotal = (this.ataque * 3 * ataque.getPotenciaAtaque() / 2) - pkRival.getDefensa();
+						}
+
+						if (comprobarVentaja(ataque, pkRival) == DESVENTAJA) {
+
+							potenciaTotal = potenciaTotal * 1 / 2;
+						}
+						if (comprobarVentaja(ataque, pkRival) == VENTAJA) {
+
+							potenciaTotal = potenciaTotal * 3 / 2;
+						}
+						break;
+						
+					case MovAtaque.ESPECIAL:
+
+						if (ataque.getTipo() == Tipo.NORMAL || ataque.getTipo() != this.tipo) {
+
+							potenciaTotal = (this.ataque * ataque.getPotenciaAtaque()) - pkRival.getDefensa();
+						}
+						if (this.tipo == ataque.getTipo() && ataque.getTipo() != Tipo.NORMAL) {
+
+							potenciaTotal = (this.ataque * 3 * ataque.getPotenciaAtaque() / 2) - pkRival.getDefensa();
+						}
+
+						if (comprobarVentaja(ataque, pkRival) == DESVENTAJA) {
+
+							potenciaTotal = potenciaTotal * 1 / 2;
+						}
+						if (comprobarVentaja(ataque, pkRival) == VENTAJA) {
+
+							potenciaTotal = potenciaTotal * 3 / 2;
+						}
+						break;
+					}
+
+					pkRival.setVitalidad(pkRival.getVitalidad() - potenciaTotal);
+					accion = this.nombre + "usó " + ataque.getNombre() + "y el rival recibió " +	
+							potenciaTotal;
+
 				} else {
-					System.out.println("Sin movimiento.");
-				}
-			}
-
-			opcion = sc.nextInt();
-
-			if (opcion >= 1 && opcion <= 4) {
-				check = true;
-
-			}
-		} while (check == false);
-
-		if (this.kitMov[opcion - 1] instanceof MovAtaque) {
-
-			ataque = (MovAtaque) kitMov[opcion - 1];
-
-			if (this.estamina - ataque.calculoConsumo() >= 0) {
-
-				switch (ataque.getFormaAtaque()) {
-
-				case MovAtaque.FISICO:
-
-					if (ataque.getTipo() == Tipo.NORMAL || ataque.getTipo() != this.tipo) {
-
-						potenciaTotal = (this.ataque * ataque.getPotenciaAtaque()) - pkRival.getDefensa();
-					}
-					if (this.tipo == ataque.getTipo() && ataque.getTipo() != Tipo.NORMAL) {
-
-						potenciaTotal = (this.ataque * 3 * ataque.getPotenciaAtaque() / 2) - pkRival.getDefensa();
-					}
-
-					if (comprobarVentaja(ataque, pkRival) == DESVENTAJA) {
-
-						potenciaTotal = potenciaTotal * 1 / 2;
-					}
-					if (comprobarVentaja(ataque, pkRival) == VENTAJA) {
-
-						potenciaTotal = potenciaTotal * 3 / 2;
-					}
-					break;
-					
-				case MovAtaque.ESPECIAL:
-
-					if (ataque.getTipo() == Tipo.NORMAL || ataque.getTipo() != this.tipo) {
-
-						potenciaTotal = (this.ataque * ataque.getPotenciaAtaque()) - pkRival.getDefensa();
-					}
-					if (this.tipo == ataque.getTipo() && ataque.getTipo() != Tipo.NORMAL) {
-
-						potenciaTotal = (this.ataque * 3 * ataque.getPotenciaAtaque() / 2) - pkRival.getDefensa();
-					}
-
-					if (comprobarVentaja(ataque, pkRival) == DESVENTAJA) {
-
-						potenciaTotal = potenciaTotal * 1 / 2;
-					}
-					if (comprobarVentaja(ataque, pkRival) == VENTAJA) {
-
-						potenciaTotal = potenciaTotal * 3 / 2;
-					}
-					break;
+					accion = "No hay estamina suficiente.";
 				}
 
-				pkRival.setVitalidad(pkRival.getVitalidad() - potenciaTotal);
+			} else if (this.kitMov[opcion - 1] instanceof MovEstado) {
 
-			} else {
-				System.out.println("No hay estamina suficiente.");
-			}
+				estado = (MovEstado) kitMov[opcion - 1];
 
-		} else if (this.kitMov[opcion - 1] instanceof MovEstado) {
+				if (this.estamina - estado.calculoConsumo() >= 0) {
 
-			estado = (MovEstado) kitMov[opcion - 1];
+					pkRival.setEstado(estado.getEstado());
 
-			if (this.estamina - estado.calculoConsumo() >= 0) {
+					accion = this.nombre + "usó " + ataque.getNombre() + "y el estado del rival cambió a "
+							+ estado.getEstado();
 
-				pkRival.setEstado(estado.getEstado());
-			} else {
-				System.out.println("No hay estamina suficiente.");
-			}
-
-		} else if (this.kitMov[opcion - 1] instanceof MovMejora) {
-
-			mejora = (MovMejora) kitMov[opcion - 1];
-
-			if (this.estamina - mejora.calculoConsumo() >= 0) {
-
-				switch (mejora.getMejora()) {
-
-				case "ataque":
-					this.ataque += mejora.getValor();
-					break;
-				case "defensa":
-					this.defensa += mejora.getValor();
-					break;
-				case "ataqueEspecial":
-					this.ataqueEspecial += mejora.getValor();
-					break;
-				case "defensaEspecial":
-					this.defensaEspecial += mejora.getValor();
-					break;
-				case "velocidad":
-					this.velocidad += mejora.getValor();
-					break;
+				} else {
+					accion = "No hay estamina suficiente.";
 				}
-			} else {
-				System.out.println("No hay estamina suficiente.");
+
+			} else if (this.kitMov[opcion - 1] instanceof MovMejora) {
+
+				mejora = (MovMejora) kitMov[opcion - 1];
+
+				if (this.estamina - mejora.calculoConsumo() >= 0) {
+
+					switch (mejora.getMejora()) {
+
+					case "ataque":
+						this.ataque += mejora.getValor();
+						break;
+					case "defensa":
+						this.defensa += mejora.getValor();
+						break;
+					case "ataqueEspecial":
+						this.ataqueEspecial += mejora.getValor();
+						break;
+					case "defensaEspecial":
+						this.defensaEspecial += mejora.getValor();
+						break;
+					case "velocidad":
+						this.velocidad += mejora.getValor();
+						break;
+					}
+
+					accion = this.nombre + "usó " + ataque.getNombre() + "y se mejoró su "
+							+ mejora.getMejora();
+
+				} else {
+					accion = "No hay estamina suficiente.";
+				}
+
 			}
+		}else if(comprobarCondicion() == 1){
+
+			accion = "El pokemon "+getNombre() +"está " + getEstado();
+
+		}else{
+
+			accion = getNombre()+" MUERTO";
 
 		}
+			sc.close();
 
+			return accion;
+	}
+
+	public String atacaqueRival(Pokemon pkRival) {
+
+		Scanner sc = new Scanner(System.in);
+
+		MovAtaque ataque = new MovAtaque();
+		MovEstado estado = new MovEstado();
+		MovMejora mejora = new MovMejora();
+		int potenciaTotal = 0;
+		String accion = "";
+
+		int opcion;
+		boolean check = false;
+
+
+		if(comprobarCondicion() == 0){
+
+			do {
+			
+				opcion = ((int) Math.floor(Math.random() * (1 - 4 + 1) + 4));
+
+				if (opcion >= 1 && opcion <= 4) {
+					check = true;
+
+				}
+			} while (check == false);
+
+
+
+			if (this.kitMov[opcion - 1] instanceof MovAtaque) {
+
+				ataque = (MovAtaque) kitMov[opcion - 1];
+
+				if (this.estamina - ataque.calculoConsumo() >= 0) {
+
+					switch (ataque.getFormaAtaque()) {
+
+					case MovAtaque.FISICO:
+
+						if (ataque.getTipo() == Tipo.NORMAL || ataque.getTipo() != this.tipo) {
+
+							potenciaTotal = (this.ataque * ataque.getPotenciaAtaque()) - pkRival.getDefensa();
+						}
+						if (this.tipo == ataque.getTipo() && ataque.getTipo() != Tipo.NORMAL) {
+
+							potenciaTotal = (this.ataque * 3 * ataque.getPotenciaAtaque() / 2) - pkRival.getDefensa();
+						}
+
+						if (comprobarVentaja(ataque, pkRival) == DESVENTAJA) {
+
+							potenciaTotal = potenciaTotal * 1 / 2;
+						}
+						if (comprobarVentaja(ataque, pkRival) == VENTAJA) {
+
+							potenciaTotal = potenciaTotal * 3 / 2;
+						}
+						break;
+						
+					case MovAtaque.ESPECIAL:
+
+						if (ataque.getTipo() == Tipo.NORMAL || ataque.getTipo() != this.tipo) {
+
+							potenciaTotal = (this.ataque * ataque.getPotenciaAtaque()) - pkRival.getDefensa();
+						}
+						if (this.tipo == ataque.getTipo() && ataque.getTipo() != Tipo.NORMAL) {
+
+							potenciaTotal = (this.ataque * 3 * ataque.getPotenciaAtaque() / 2) - pkRival.getDefensa();
+						}
+
+						if (comprobarVentaja(ataque, pkRival) == DESVENTAJA) {
+
+							potenciaTotal = potenciaTotal * 1 / 2;
+						}
+						if (comprobarVentaja(ataque, pkRival) == VENTAJA) {
+
+							potenciaTotal = potenciaTotal * 3 / 2;
+						}
+						break;
+					}
+
+					pkRival.setVitalidad(pkRival.getVitalidad() - potenciaTotal);
+					accion = this.nombre + "usó " + ataque.getNombre() + "y el rival recibió " +	
+							potenciaTotal;
+
+				} else {
+					accion = "No hay estamina suficiente.";
+				}
+
+			} else if (this.kitMov[opcion - 1] instanceof MovEstado) {
+
+				estado = (MovEstado) kitMov[opcion - 1];
+
+				if (this.estamina - estado.calculoConsumo() >= 0) {
+
+					pkRival.setEstado(estado.getEstado());
+
+					accion = this.nombre + "usó " + ataque.getNombre() + "y el estado del rival cambió a "
+							+ estado.getEstado();
+
+				} else {
+					accion = "No hay estamina suficiente.";
+				}
+
+			} else if (this.kitMov[opcion - 1] instanceof MovMejora) {
+
+				mejora = (MovMejora) kitMov[opcion - 1];
+
+				if (this.estamina - mejora.calculoConsumo() >= 0) {
+
+					switch (mejora.getMejora()) {
+
+					case "ataque":
+						this.ataque += mejora.getValor();
+						break;
+					case "defensa":
+						this.defensa += mejora.getValor();
+						break;
+					case "ataqueEspecial":
+						this.ataqueEspecial += mejora.getValor();
+						break;
+					case "defensaEspecial":
+						this.defensaEspecial += mejora.getValor();
+						break;
+					case "velocidad":
+						this.velocidad += mejora.getValor();
+						break;
+					}
+
+					accion = this.nombre + "usó " + ataque.getNombre() + "y se mejoró su "
+							+ mejora.getMejora();
+
+				} else {
+					accion = "No hay estamina suficiente.";
+				}
+
+			}
+		}else if(comprobarCondicion() == 1){
+
+			accion = "El pokemon "+getNombre() +"está " + getEstado();
+
+		}else{
+
+			accion = getNombre()+" MUERTO";
+
+		}	
 		sc.close();
+
+		return accion;
 	}
 
 	public int comprobarVentaja(MovAtaque ataque, Pokemon pkRival) {
@@ -529,6 +701,56 @@ public class Pokemon {
 		return pokemonGenerado;
 	}
 
+	public int comprobarCondicion(){
+		
+		int condicion = 0;
+		int estadoRaro;
+
+		switch(this.estado){
+
+			case QUEMADO:
+				setVitalidad(this.vitalidad-3);
+				break;
+
+			case CONGELADO:
+				condicion = 1;
+				break;
+
+			case DORMIDO:
+				condicion = 1;
+				break;
+
+			case PARALIZADO:
+			  	estadoRaro = ((int) Math.floor(Math.random() * (1 - 3 + 1) + 3));			
+				if(estadoRaro > 1){
+					condicion = 1;
+				}
+				break;
+
+			case ENVENENADO:
+				setVitalidad(this.vitalidad-3);	
+				break;
+
+			case CONFUNDIDO:
+				estadoRaro = ((int) Math.floor(Math.random() * (1 - 3 + 1) + 3));			
+				if(estadoRaro > 1){
+					setVitalidad(this.vitalidad-3);
+				}
+				break;
+
+			case SIN_ESTADO:
+				break;	
+
+			default:
+				break;	
+		}
+
+		if(this.vitalidad <= 0){
+			condicion = 2;
+		}
+		return condicion;
+	}
+
 	public String mostrarPokemon() {
 		return "Pokemon [ataque=" + ataque + ", ataqueEspecial=" + ataqueEspecial + ", defensa=" + defensa
 				+ ", defensaEspecial=" + defensaEspecial + ", estado=" + estado + ", estamina=" + estamina + ", exp="
@@ -537,9 +759,7 @@ public class Pokemon {
 
 	@Override
 	public String toString() {
-		return "Pokemon [mote=" + mote + "]";
+		return "Pokemon [mote=" + nombre + "]";
 	}
-
-
 
 }
