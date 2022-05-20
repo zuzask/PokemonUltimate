@@ -15,8 +15,8 @@ public class MovAtaque extends Movimientos {
 		this.formaAtaque = 0;
 	}
 
-	public MovAtaque(String nombre, int potenciaAtaque, Tipo tipo,int formaAtaque) {
-		super(nombre);
+	public MovAtaque(String nombre, int idMovimientos, int potenciaAtaque, Tipo tipo,int formaAtaque) {
+		super(nombre, idMovimientos);
 		this.potenciaAtaque = potenciaAtaque;
 		this.tipo = tipo;
 	}

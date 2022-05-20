@@ -13,8 +13,8 @@ public class MovEstado extends Movimientos{
     }
 
 
-    public MovEstado(String nombre, Estado estado, int numTurnos) {
-        super(nombre);
+    public MovEstado(String nombre,int idMovimientos, Estado estado, int numTurnos) {
+        super(nombre, idMovimientos);
         this.estado = estado;
         this.numTurnos = numTurnos;
     }

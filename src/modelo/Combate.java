@@ -125,6 +125,7 @@ public class Combate {
 		
 		
 		
+		
 		return "El ganador es: "+ganador;
 	}
 

@@ -89,5 +89,26 @@ public class DbConexion {
 													   
 	}
 
+    public static List<Movimientos> cargarMovimientos() throws SQLException {
+		//String pok="Charizard";		
+        LinkedList<Movimientos> listaMovimientos = new LinkedList<>();
+        String consulta = "SELECT * FROM movimientos";
+        Statement statement = conexion.createStatement();
+        ResultSet rs = statement.executeQuery(consulta);
+
+        MovAtaque a = null;
+        MovEstado e = null;
+        MovMejora m = null;
+        while (rs.next()) {
+            e = new MovEstado();
+            e.setNumPokedex(rs.getInt("id_pokedex"));
+            e.setNombre(rs.getString("nombre"));
+            e.setTipo(Tipo.valueOf(rs.getString("tipo1")));
+            listaPokemon.add(e);
+        }
+        statement.close();
+        return listaPokemon;
+    }
+
 
 }

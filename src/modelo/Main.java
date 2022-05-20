@@ -16,13 +16,13 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 public static void main(String[] args) {
-    
+    launch(args);
 }
     @Override
     public void start(Stage primaryStage) {
         Parent root;
         try {
-            root = FXMLLoader.load(getClass().getResource("./vistas/VentanaPrincipal.fxml"));
+            root = FXMLLoader.load(getClass().getResource("../vistas/VentanaPrincipal.fxml"));
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.show();

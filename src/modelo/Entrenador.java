@@ -7,6 +7,7 @@ public class Entrenador {
 
 	public static final int CAJA = 0;
 	public static final int EQUIPO = 1;
+	public static final String NOMBRES[] = {"Pedro","Juan","Gervasio","Zacarias","Teodoro"};
 
 	private Pokemon equipo[];
 	private Caja caja;
@@ -132,6 +133,27 @@ public class Entrenador {
 		}
 
 		sc.close();
+	}
+
+	public static Entrenador generarRival(Entrenador jugador){
+
+		Entrenador rival = new Entrenador();
+		int cont = 0;
+
+		for (int i = 0; i < jugador.equipo.length; i++) {
+			if (jugador.equipo[i] != null) {
+				cont++;
+			}
+		}
+		for(int i = 0; i <= cont;i++ ){
+
+			rival.equipo[i] = Pokemon.generarPokemon();
+		}	
+
+		rival.nombre = "El entrenador" + NOMBRES[((int)Math.floor(Math.random()*(1-5+1)+5))];
+		rival.pokedollar = 1000000;
+
+		return rival;
 	}
 
 	public void captura() {
