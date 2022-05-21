@@ -7,7 +7,7 @@ public class Entrenador {
 
 	public static final int CAJA = 0;
 	public static final int EQUIPO = 1;
-	public static final String NOMBRES[] = {"Pedro","Juan","Gervasio","Zacarias","Teodoro"};
+	public static final String NOMBRES[] = { "Pedro", "Juan", "Gervasio", "Zacarias", "Teodoro" };
 
 	private int idEntrenador;
 	private Pokemon equipo[];
@@ -26,14 +26,14 @@ public class Entrenador {
 
 	public Entrenador(int idEntrenador, Pokemon[] equipo, Caja caja, String nombre, int pokedollar) {
 		super();
-		
+
 		this.idEntrenador = idEntrenador;
 		this.equipo = equipo;
 		this.caja = caja;
 		this.nombre = nombre;
 		this.pokedollar = pokedollar;
 	}
-	
+
 	public int getIdEntrenador() {
 		return idEntrenador;
 	}
@@ -147,7 +147,7 @@ public class Entrenador {
 		sc.close();
 	}
 
-	public static Entrenador generarRival(Entrenador jugador){
+	public static Entrenador generarRival(Entrenador jugador) {
 
 		Entrenador rival = new Entrenador();
 		int cont = 0;
@@ -157,27 +157,40 @@ public class Entrenador {
 				cont++;
 			}
 		}
-		for(int i = 0; i <= cont;i++ ){
+		for (int i = 0; i <= cont; i++) {
 
 			rival.equipo[i] = Pokemon.generarPokemon();
-		}	
+			DbConexion.establecerConexion();
+			try {
+				DbConexion.insertarPokemon(rival.equipo[i], EQUIPO, rival.getIdEntrenador());
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}DbConexion.cerrarConexion();
+		}
 
-		rival.nombre = "El entrenador" + NOMBRES[((int)Math.floor(Math.random()*(1-5+1)+5))];
+		rival.idEntrenador = (((int)Math.floor(Math.random()*(1-1000000+1)+1000000)));
+		rival.nombre = "El entrenador" + NOMBRES[((int) Math.floor(Math.random() * (1 - 5 + 1) + 5))];
 		rival.pokedollar = 1000000;
+		
+		DbConexion.establecerConexion();
+		try {
+			DbConexion.insertarEntrenador(rival);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}DbConexion.cerrarConexion();
 
 		return rival;
 	}
 
-	public void captura() {
+	public void captura(Pokemon pokemonCaptura) {
 
 		Scanner sc = new Scanner(System.in);
 
-		Pokemon pokemonCaptura = new Pokemon();
 		int captura;
 		int cont = 0;
 		String respuesta;
-
-		pokemonCaptura = Pokemon.generarPokemon();
 
 		System.out.println("A ver si cae la breva.");
 
@@ -188,7 +201,7 @@ public class Entrenador {
 			System.out.println("Deseas ponerle un mote (s/n)");
 			respuesta = sc.nextLine();
 
-			if(respuesta == "s"){		
+			if (respuesta.equals("s")) {
 				System.out.println("Dime el mote: ");
 				pokemonCaptura.setMote(sc.nextLine());
 			}
@@ -198,41 +211,49 @@ public class Entrenador {
 					cont++;
 				}
 
-				if (cont < 4) {
-					for (int j = 0; j < equipo.length; j++) {
-						cont = 0;
-						if (equipo[j] == null) {
-							equipo[j] = pokemonCaptura;
-							cont = 1;
-						}
-						if (cont == 1) {
-							j = 10;
-						}	
-					}	try {
-						DbConexion.insertarPokemon(pokemonCaptura,EQUIPO,this.idEntrenador);
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				} else {
-
-					caja.getListPokemon().add(pokemonCaptura);
-					try {
-						DbConexion.insertarPokemon(pokemonCaptura,CAJA,this.idEntrenador);
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
 			}
-		}else{
+			if (cont < 4) {
+				for (int j = 0; j < equipo.length; j++) {
+					cont = 0;
+					if (equipo[j] == null) {
+						equipo[j] = pokemonCaptura;
+						cont = 1;
+					}
+					if (cont == 1) {
+						j = 10;
+					}
+
+				}
+				DbConexion.establecerConexion();
+				try {
+					DbConexion.insertarPokemon(pokemonCaptura, EQUIPO, this.idEntrenador);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				DbConexion.cerrarConexion();
+			} else {
+
+				caja.getListPokemon().add(pokemonCaptura);
+				DbConexion.establecerConexion();
+				try {
+					DbConexion.insertarPokemon(pokemonCaptura, CAJA, this.idEntrenador);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				DbConexion.cerrarConexion();
+			}
+
+		} else {
 			System.out.println("Unlucky.");
 		}
+
 	}
 
-	public void mostrarEquipo(){
+	public void mostrarEquipo() {
 
-		for(int i = 0; i < equipo.length; i++){
+		for (int i = 0; i < equipo.length; i++) {
 
-		System.out.println(equipo[i].mostrarPokemon());
+			System.out.println(equipo[i].mostrarPokemon());
 
 		}
 

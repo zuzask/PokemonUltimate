@@ -7,7 +7,7 @@ import java.util.List;
 import controladores.TestController;
 import controladores.TestController2;
 
-public class Combate {
+public class Combat {
 
 	private int idCombate; 
 	private Entrenador entrenador;
@@ -18,7 +18,7 @@ public class Combate {
 	private int numKO2;
 	
 	
-	public Combate() {
+	public Combat() {
 		super();
 		idCombate = 0;
 		entrenador = new Entrenador();
@@ -29,7 +29,7 @@ public class Combate {
 		numKO2 = 0;
 	}
 	
-	public Combate(int idCombate, Entrenador entrenador, Entrenador rival, List<Turno> combate, int idGanador, int numKO1,
+	public Combat(int idCombate, Entrenador entrenador, Entrenador rival, List<Turno> combate, int idGanador, int numKO1,
 			int numKO2) {
 		super();
 		this.idCombate = idCombate;
@@ -142,7 +142,7 @@ public class Combate {
 	
 	public String combatir() {
 		
-		Combate batalla;
+		Combat batalla;
 		boolean finalizar = false;
 		Pokemon equipoEntrenador[] = entrenador.getEquipo();
 		Pokemon equipoRival[] = rival.getEquipo();
@@ -198,7 +198,7 @@ public class Combate {
 
 		}while(finalizar == false);
 
-		batalla = new Combate(this.idCombate, entrenador, rival, this.combate, this.idGanador, this.numKO1, this.numKO2);
+		batalla = new Combat(this.idCombate, entrenador, rival, this.combate, this.idGanador, this.numKO1, this.numKO2);
 
 		try {
 			DbConexion.insertarCombate(batalla, entrenador.getIdEntrenador(), rival.getIdEntrenador());

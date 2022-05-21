@@ -2,6 +2,7 @@ package controladores;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -15,6 +16,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import modelo.Caja;
+import modelo.DbConexion;
 import modelo.Entrenador;
 import modelo.Pokemon;
 
@@ -22,6 +25,8 @@ public class VentanaCapturar implements Initializable {
 
     private Entrenador entrenador;
     private Pokemon pokemon;
+    private Caja caja;
+    private Pokemon equipo1[];
 
     @FXML
     private ImageView CapturarPokemon;
@@ -40,7 +45,7 @@ public class VentanaCapturar implements Initializable {
     @FXML
     private void capturar(ActionEvent event) throws IOException{
 
-        entrenador.captura();
+        entrenador.captura(pokemon);
 
       
     }
@@ -85,8 +90,11 @@ public class VentanaCapturar implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        entrenador = new Entrenador();
+        caja = new Caja();
+        equipo1 = new Pokemon [4];
+        entrenador  = new Entrenador(1,equipo1, caja,"pedro",50);
 
+      
         pokemon = new Pokemon();
 
 

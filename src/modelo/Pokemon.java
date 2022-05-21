@@ -267,7 +267,7 @@ public class Pokemon {
 		MovAtaque ataque = new MovAtaque();
 		MovEstado estado = new MovEstado();
 		MovMejora mejora = new MovMejora();
-		int potenciaTotal = 0;
+		int potenciaTotal = ((int) Math.floor(Math.random() * (1 - 100 + 1) + 100));
 		String accion = "";
 
 		int opcion;
@@ -348,7 +348,7 @@ public class Pokemon {
 					}
 
 					pkRival.setVitalidad(pkRival.getVitalidad() - potenciaTotal);
-					accion = this.nombre + "usó " + ataque.getNombre() + "y el rival recibió " +	
+					accion = this.nombre + " usó " + ataque.getNombre() + " y el rival recibió " +	
 							potenciaTotal;
 
 				} else {
@@ -364,7 +364,7 @@ public class Pokemon {
 
 					pkRival.setEstado(estado.getEstado());
 
-					accion = this.nombre + "usó " + ataque.getNombre() + "y el estado del rival cambió a "
+					accion = this.nombre + " usó " + ataque.getNombre() + " y el estado del rival cambió a "
 							+ estado.getEstado();
 
 				} else {
@@ -397,7 +397,7 @@ public class Pokemon {
 						break;
 					}
 
-					accion = this.nombre + "usó " + ataque.getNombre() + "y se mejoró su "
+					accion = this.nombre + " usó " + ataque.getNombre() + " y se mejoró su "
 							+ mejora.getMejora();
 
 				} else {
@@ -692,9 +692,18 @@ public class Pokemon {
 	   pokemonGenerado = pokemon.get(((int)Math.floor(Math.random()*(1-pokemon.size()+1)+pokemon.size())));
 		
 		pokemonGenerado.subirNivel();
+		pokemonGenerado.setNumPokemon(((int)Math.floor(Math.random()*(1-1000000+1)+1000000)));
+		pokemonGenerado.setEstamina(1000000);
+		pokemonGenerado.setAtaque(20);
 
-		for(int i = 0; i < pokemonGenerado.kitMov.length; i++){
+		for(int i = 0; i < 2; i++){
 		pokemonGenerado.kitMov[i] = Movimientos.generarMovimientos();
+		try {
+			DbConexion.insertarMovimiento(pokemonGenerado.kitMov[i], pokemonGenerado);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		}
 		DbConexion.cerrarConexion();
 		return pokemonGenerado;
