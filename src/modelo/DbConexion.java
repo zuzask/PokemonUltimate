@@ -96,8 +96,8 @@ public class DbConexion {
             while (rs.next()) {
                 String nombre = rs.getString("nombre_mov");
                 int idMovimientos = rs.getInt("id_movimientos");
-                Estado estado = Estado.valueOf(rs.getString("estado"));
                 Tipo tipo = Tipo.valueOf(rs.getString("tipo"));
+                Estado estado = Estado.valueOf(rs.getString("estado"));
                 int potenciaAtaque = rs.getInt("potencia");
                 int formaAtaque = rs.getInt("forma_ataque");
                 String mejora = rs.getString("mejora");
@@ -113,7 +113,7 @@ public class DbConexion {
                 }else if(estado == null && potenciaAtaque == 0){
 
                     e = new MovMejora(nombre, idMovimientos, mejora, numTurnos, valor);
-                }else {
+                }else if(mejora == null && potenciaAtaque == 0) {
 
                     e = new MovEstado(nombre, idMovimientos, estado, numTurnos);
                 }

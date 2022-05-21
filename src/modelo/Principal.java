@@ -3,9 +3,11 @@ package modelo;
 public class Principal {
     
 
-    public static void main(String[] args) {
+    public static void main(String[] args)  {
 
+        DbConexion.establecerConexion();
         Pokemon pokemon = new Pokemon();
+        
 
         pokemon = Pokemon.generarPokemon();
 
@@ -13,7 +15,7 @@ public class Principal {
         System.out.println(pokemon.mostrarPokemon());
 
 
-
+        DbConexion.cerrarConexion();
     }
 
 

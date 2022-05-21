@@ -43,13 +43,13 @@ abstract class Movimientos {
       public static Movimientos generarMovimientos(){
 
         List<Movimientos> movimientos = new LinkedList<>();
-
+        DbConexion.establecerConexion();
         try {
           movimientos = DbConexion.cargarMovimientos();
         } catch (SQLException e) {
           e.printStackTrace();
         }
-
+        DbConexion.establecerConexion();
         Movimientos movGenerado = movimientos.get(((int)Math.floor(Math.random()*(1-movimientos.size()+1)+movimientos.size())));
 
         return movGenerado;
