@@ -15,7 +15,6 @@ public class Pokemon {
 	private String nombre;
 	private int numPokedex;
 	private int numPokemon;
-	private int idEntrenador;
 	private String mote;
 	private int vitalidad;
 	private int ataque;
@@ -36,7 +35,6 @@ public class Pokemon {
 		this.nombre = "";
 		this.numPokedex = 0;
 		this.numPokemon = 0;
-		this.idEntrenador = 0;
 		this.mote = "";
 		this.vitalidad = 0;
 		this.ataque = 0;
@@ -51,7 +49,7 @@ public class Pokemon {
 		this.exp = 0;
 	}
 
-	public Pokemon(String nombre,int numPokedex, int numPokemon, int idEntrenador,String mote, int vitalidad, int ataque, int defensa, int ataqueEspecial,
+	public Pokemon(String nombre,int numPokedex, int numPokemon,String mote, int vitalidad, int ataque, int defensa, int ataqueEspecial,
 			int defensaEspecial, int velocidad, int estamina, int nivel, Movimientos[] kitMov, Tipo tipo, Estado estado,
 			int exp) {
 
@@ -59,7 +57,6 @@ public class Pokemon {
 		this.nombre = nombre;
 		this.numPokedex = numPokedex;
 		this.numPokemon = numPokemon;
-		this.idEntrenador = idEntrenador;
 		this.mote = mote;
 		this.vitalidad = vitalidad;
 		this.ataque = ataque;
@@ -97,14 +94,6 @@ public class Pokemon {
 
 	public void setNumPokemon(int numPokemon) {
 		this.numPokemon = numPokemon;
-	}
-
-	public int getIdEntrenador() {
-		return idEntrenador;
-	}
-
-	public void setIdEntrenador(int idEntrenador) {
-		this.idEntrenador = idEntrenador;
 	}
 
 	public String getMote() {
@@ -364,6 +353,7 @@ public class Pokemon {
 
 				} else {
 					accion = "No hay estamina suficiente.";
+					this.estamina += 20;
 				}
 
 			} else if (this.kitMov[opcion - 1] instanceof MovEstado) {
@@ -379,6 +369,7 @@ public class Pokemon {
 
 				} else {
 					accion = "No hay estamina suficiente.";
+					this.estamina += 20;
 				}
 
 			} else if (this.kitMov[opcion - 1] instanceof MovMejora) {
@@ -411,12 +402,14 @@ public class Pokemon {
 
 				} else {
 					accion = "No hay estamina suficiente.";
+					this.estamina += 20;
 				}
 
 			}
 		}else if(comprobarCondicion() == 1){
 
 			accion = "El pokemon "+getNombre() +"está " + getEstado();
+			this.estamina += 20;
 
 		}else{
 
@@ -513,6 +506,7 @@ public class Pokemon {
 
 				} else {
 					accion = "No hay estamina suficiente.";
+					this.estamina += 20;
 				}
 
 			} else if (this.kitMov[opcion - 1] instanceof MovEstado) {
@@ -528,6 +522,7 @@ public class Pokemon {
 
 				} else {
 					accion = "No hay estamina suficiente.";
+					this.estamina += 20;
 				}
 
 			} else if (this.kitMov[opcion - 1] instanceof MovMejora) {
@@ -560,12 +555,14 @@ public class Pokemon {
 
 				} else {
 					accion = "No hay estamina suficiente.";
+					this.estamina += 20;
 				}
 
 			}
 		}else if(comprobarCondicion() == 1){
 
 			accion = "El pokemon "+getNombre() +"está " + getEstado();
+			this.estamina += 20;
 
 		}else{
 

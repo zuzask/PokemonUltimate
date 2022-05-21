@@ -9,6 +9,7 @@ public class Entrenador {
 	public static final int EQUIPO = 1;
 	public static final String NOMBRES[] = {"Pedro","Juan","Gervasio","Zacarias","Teodoro"};
 
+	private int idEntrenador;
 	private Pokemon equipo[];
 	private Caja caja;
 	private String nombre;
@@ -16,18 +17,29 @@ public class Entrenador {
 
 	public Entrenador() {
 		super();
+		idEntrenador = 0;
 		equipo = new Pokemon[4];
 		caja = new Caja();
 		nombre = "";
 		pokedollar = 0;
 	}
 
-	public Entrenador(Pokemon[] equipo, Caja caja, String nombre, int pokedollar) {
+	public Entrenador(int idEntrenador, Pokemon[] equipo, Caja caja, String nombre, int pokedollar) {
 		super();
+		
+		this.idEntrenador = idEntrenador;
 		this.equipo = equipo;
 		this.caja = caja;
 		this.nombre = nombre;
 		this.pokedollar = pokedollar;
+	}
+	
+	public int getIdEntrenador() {
+		return idEntrenador;
+	}
+
+	public void setIdEntrenador(int idEntrenador) {
+		this.idEntrenador = idEntrenador;
 	}
 
 	public Pokemon[] getEquipo() {
@@ -197,7 +209,7 @@ public class Entrenador {
 							j = 10;
 						}	
 					}	try {
-						DbConexion.insertarPokemon(pokemonCaptura,EQUIPO);
+						DbConexion.insertarPokemon(pokemonCaptura,EQUIPO,this.idEntrenador);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -205,7 +217,7 @@ public class Entrenador {
 
 					caja.getListPokemon().add(pokemonCaptura);
 					try {
-						DbConexion.insertarPokemon(pokemonCaptura,CAJA);
+						DbConexion.insertarPokemon(pokemonCaptura,CAJA,this.idEntrenador);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}

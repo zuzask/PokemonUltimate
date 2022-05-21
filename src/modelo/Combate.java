@@ -1,5 +1,6 @@
 package modelo;
 
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,33 +9,46 @@ import controladores.TestController2;
 
 public class Combate {
 
+	private int idCombate; 
 	private Entrenador entrenador;
 	private Entrenador rival;
 	private List<Turno> combate;
-	private String ganador;
+	private int idGanador;
 	private int numKO1;
 	private int numKO2;
 	
 	
 	public Combate() {
 		super();
+		idCombate = 0;
 		entrenador = new Entrenador();
 		rival = new Entrenador();
 		combate = new LinkedList<Turno>();
-		ganador = "";
+		idGanador = 0;
 		numKO1 = 0;
 		numKO2 = 0;
 	}
 	
-	public Combate(Entrenador entrenador, Entrenador rival, List<Turno> combate, String ganador, int numKO1,
+	public Combate(int idCombate, Entrenador entrenador, Entrenador rival, List<Turno> combate, int idGanador, int numKO1,
 			int numKO2) {
 		super();
+		this.idCombate = idCombate;
 		this.entrenador = entrenador;
 		this.rival = rival;
 		this.combate = combate;
-		this.ganador = ganador;
+		this.idGanador = idGanador;
 		this.numKO1 = numKO1;
 		this.numKO2 = numKO2;
+	}
+
+	
+
+	public int getIdCombate() {
+		return idCombate;
+	}
+
+	public void setIdCombate(int idCombate) {
+		this.idCombate = idCombate;
 	}
 
 	public Entrenador getEntrenador() {
@@ -61,12 +75,12 @@ public class Combate {
 		this.combate = combate;
 	}
 
-	public String getGanador() {
-		return ganador;
+	public int getIdGanador() {
+		return idGanador;
 	}
 
-	public void setGanador(String ganador) {
-		this.ganador = ganador;
+	public void setIdGanador(int idGanador) {
+		this.idGanador = idGanador;
 	}
 
 	public int getNumKO1() {
@@ -87,7 +101,7 @@ public class Combate {
 	
 	public void rendirse(Entrenador rival) {
 		
-		this.ganador = rival.getNombre();
+		this.idGanador = rival.getIdEntrenador();
 	}
 	
 	public void ganarExp(Pokemon pokemonVencedor,Pokemon pokemonDerrotado) {
@@ -109,7 +123,7 @@ public class Combate {
 		
 		int dineroPagar;
 		
-		if (ganador.equals(entrenador.getNombre())){
+		if (idGanador == entrenador.getIdEntrenador()){
 			
 			dineroPagar = (rival.getPokedollar()) / 3 ;
 			entrenador.setPokedollar(entrenador.getPokedollar() + dineroPagar);
@@ -128,6 +142,7 @@ public class Combate {
 	
 	public String combatir() {
 		
+		Combate batalla;
 		boolean finalizar = false;
 		Pokemon equipoEntrenador[] = entrenador.getEquipo();
 		Pokemon equipoRival[] = rival.getEquipo();
@@ -138,6 +153,7 @@ public class Combate {
 		int numTurno = 0;
 		String accionEntrenador = "";
 		String accionRival = "";
+		String ganador;
 		Turno turno = new Turno(numTurno, accionEntrenador, accionRival);
 
 		do{
@@ -182,16 +198,25 @@ public class Combate {
 
 		}while(finalizar == false);
 
-		if(numKO1 == 4){
-			this.ganador = rival.getNombre();
+		batalla = new Combate(this.idCombate, entrenador, rival, this.combate, this.idGanador, this.numKO1, this.numKO2);
 
+		try {
+			DbConexion.insertarCombate(batalla, entrenador.getIdEntrenador(), rival.getIdEntrenador());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		if(numKO1 == 4){
+			this.idGanador = rival.getIdEntrenador();
+			ganador = rival.getNombre();
 		}else{
-			this.ganador = entrenador.getNombre();
+			this.idGanador = entrenador.getIdEntrenador();
+			ganador = entrenador.getNombre();
 		}
 
 		pagar();
 
-		return "El ganador es: "+ this.ganador;
+		return "El ganador es: "+ ganador;
 	}
 
 	
