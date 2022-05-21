@@ -29,6 +29,7 @@ public class Combate implements Initializable {
 
     @FXML
     private void generarRival(ActionEvent event) throws IOException{
+        
 
     }
     

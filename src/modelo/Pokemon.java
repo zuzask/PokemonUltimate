@@ -679,6 +679,7 @@ public class Pokemon {
 	
 	public static Pokemon generarPokemon() {
 		
+		DbConexion.establecerConexion();
 		Pokemon pokemonGenerado = new Pokemon();
 		
 		List<Pokemon> pokemon = new LinkedList<>();
@@ -695,6 +696,7 @@ public class Pokemon {
 		for(int i = 0; i < pokemonGenerado.kitMov.length; i++){
 		pokemonGenerado.kitMov[i] = Movimientos.generarMovimientos();
 		}
+		DbConexion.cerrarConexion();
 		return pokemonGenerado;
 	}
 

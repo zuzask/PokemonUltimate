@@ -48,8 +48,8 @@ public class VentanaCapturar implements Initializable {
     @FXML
     private void generarPokemon(ActionEvent event) throws IOException{
 
-        Image image = new Image("../imagenes/fondo.png");
-        CapturarPokemon.setImage(image);
+        pokemon = Pokemon.generarPokemon();
+        System.out.println(pokemon.mostrarPokemon());
 
     }
 

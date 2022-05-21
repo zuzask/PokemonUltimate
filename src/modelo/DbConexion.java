@@ -106,11 +106,11 @@ public class DbConexion {
 
                 
 
-                if(estado == null && mejora == null){
+                if(estado == Estado.SIN_ESTADO && mejora == null){
 
                     e = new MovAtaque(nombre, idMovimientos, potenciaAtaque, tipo, formaAtaque);
 
-                }else if(estado == null && potenciaAtaque == 0){
+                }else if(estado == Estado.SIN_ESTADO && potenciaAtaque == 0){
 
                     e = new MovMejora(nombre, idMovimientos, mejora, numTurnos, valor);
                 }else if(mejora == null && potenciaAtaque == 0) {
